@@ -68,7 +68,7 @@ async def send_start(message: Message):
 @dp.message(Command("help"))
 async def help_command(message: Message):
     await message.answer("help")
-    await message.answer("/add_student")
+    # await message.answer("/add_user")
     await message.answer("/see_bd")
 
 # Обработчик команды /see_bd
@@ -91,18 +91,17 @@ async def see_bd(message: Message):
 
         # Формируем сообщение с данными
         response_message = "users:\n"
-        # await message.answer(response_message)
-        print(f"Ошибка rows[0]: {rows[0]}")
-        for r in rows[0]:
-            print(str(f"Ошибка r: {r}"))
-            # await message.answer(str(r))
-            response_message += str(r)+' ' #f"ID: "#{student_id}, Имя: {name}, Возраст: {age}, Класс: {grade}\n"
+        N = len(rows)
+        for i in range(N):
+            for r in rows[i]:
+                response_message += str(r)+' '
+            response_message += '\n'
+
         # Отправляем данные пользователю
         await message.answer(response_message)
     except Exception as e:
         print(f"Ошибка при чтении базы данных: {e}")
         await message.answer("Произошла ошибка при получении данных из базы.")
-
 
 @dp.message(F.text == "Регистрация в телеграм боте")
 async def registration(message: Message):
